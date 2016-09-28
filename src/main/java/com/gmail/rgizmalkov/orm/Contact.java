@@ -18,9 +18,11 @@ import java.util.Date;
 @Table(name = "contact")
 @NamedQueries({
         @NamedQuery(name="Contact.findAll", query="select c from com.gmail.rgizmalkov.orm.Contact c"),
-        @NamedQuery(name="Contact.countAll", query="select count(c) from com.gmail.rgizmalkov.orm.Contact c")
+        @NamedQuery(name=Contact.COUNT_ALL, query="select count(c) from com.gmail.rgizmalkov.orm.Contact c")
 })
 public class Contact implements Serializable {
+    public static final String COUNT_ALL = "Contact.countAll";
+
     private Long id;
     private int version;
     private String firstName;

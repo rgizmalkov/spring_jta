@@ -7,6 +7,7 @@ import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -30,6 +31,7 @@ public class ContactServiceImpl implements ContactService {
         return Lists.newArrayList(contactRepository.findAll());
     }
 
+    @Transactional(readOnly = true)
     public Contact findById(Long id) {
         return contactRepository.findOne(id);
     }
@@ -38,8 +40,10 @@ public class ContactServiceImpl implements ContactService {
         return contactRepository.save(contact);
     }
 
+    @Transactional(propagation = Propagation.NEVER, readOnly = true)
     public long countAll() {
-        return 0;//em.createNamedQuery("Contact.countAll", Contact.class).getSingleResult();
+        // not-created transactions
+        return contactRepository.countAllContacts();//em.createNamedQuery("Contact.countAll", Contact.class).getSingleResult();
     }
 
     public ContactRepository getContactRepository() {
